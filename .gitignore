@@ -4,6 +4,7 @@ __pycache__/
 build/
 dist/
 *.spec
+!packaging/*.spec
 .pytest_cache/
 
 # GNOME System Monitor reference screenshots (GNOME project artwork) - kept locally, not published

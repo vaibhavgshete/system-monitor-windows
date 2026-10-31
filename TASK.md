@@ -76,6 +76,9 @@ Legend: `[x]` done · `[ ]` to do · `[~]` partial
       (measured: about 50 MB private memory, about 0.3% CPU at a 1 s interval)
 - [x] README with install / run / build steps
 - [x] Trim the build size: 111 MB -> 52 MB (unused Qt modules, plugins, translations, OpenSSL removed)
+- [x] Single-file `SystemMonitor-<version>.exe` alongside the zip (one spec builds both; Qt trimming
+      happens inside the spec; Windows version info embedded; both self-tested)
+- [x] Public GitHub repo, MIT license, third-party notices, user-facing README, GitHub Release
 - [x] App icon from the user's logo (`sysmon/assets/logo.png`), multi-size exe icon via `tools/make_ico.py`
 - [x] `--selftest DIR` flag; `build.ps1` runs it on the trimmed exe and fails the build if any tab breaks
 

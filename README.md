@@ -11,13 +11,17 @@ GNOME System Monitor on Ubuntu.
 
 ## Download and run
 
-1. Go to the [**Releases**](../../releases/latest) page and download `SystemMonitor-<version>-win64.zip`.
-2. Right-click the zip → **Extract All…**, and pick a folder to keep it in, for example
-   `C:\Users\<you>\AppData\Local\Programs\SystemMonitor`.
-3. Open the extracted folder and double-click **`SystemMonitor.exe`**.
+Go to the [**latest release**](../../releases/latest). Under **Assets**, pick one of the two downloads:
 
-Nothing gets installed. There's no setup wizard and no admin rights are needed. Keep
-`SystemMonitor.exe` and the `_internal` folder next to it together; the app needs both.
+| Download | How to use it | Best for |
+|---|---|---|
+| **`SystemMonitor-<version>.exe`** | Download it and double-click it. That's all. | Trying it out, or keeping it on a USB stick |
+| `SystemMonitor-<version>-win64.zip` | Right-click → **Extract All…**, open the folder, double-click `SystemMonitor.exe` | Everyday use: opens instantly (about 0.4 s instead of about 3 s) |
+
+Both contain the same app. Nothing gets installed: no setup wizard, no admin rights, no Python needed.
+- The single **.exe** unpacks itself to a temporary folder each time it starts, so it takes a few seconds to open.
+- With the **zip** version, keep `SystemMonitor.exe` and the `_internal` folder next to it together;
+  the app needs both. Don't run it from inside the zip without extracting it first.
 
 **"Windows protected your PC"?** The app isn't code-signed (signing certificates cost money),
 so Windows SmartScreen may warn the first time you run it. Click **More info → Run anyway**.
@@ -67,8 +71,10 @@ can be changed under ☰ → **Preferences**. It's lightweight: about 50 MB of m
   users' processes from normal programs, and won't let you end them. Use
   ☰ → **Restart as Administrator** for full access.
 - **Settings** are stored in the registry under `HKEY_CURRENT_USER\Software\SystemMonitor`.
-- **Uninstall:** close the app, unpin it, and delete its folder. Optionally also delete the
-  registry key above.
+- **Uninstall:** close the app, unpin it, and delete the `.exe` (or the extracted folder). Optionally
+  also delete the registry key above.
+- **Antivirus warning?** Single-file apps that unpack themselves are sometimes flagged by mistake
+  (a known false positive with PyInstaller-built programs). The zip version is less likely to be flagged.
 - **Requirements:** 64-bit Windows 10 (version 2004 or later) or Windows 11.
 
 ## Build from source
@@ -83,11 +89,12 @@ python -m venv .venv
 
 .venv\Scripts\python run.py            # run from source
 .venv\Scripts\python -m pytest -q      # run the tests
-.\build.ps1                            # build dist\SystemMonitor\SystemMonitor.exe (about 52 MB)
+.\build.ps1                            # build both downloads into build\release\
 ```
 
-`build.ps1` also starts the finished exe in a self-test mode that renders every tab, and fails the
-build if anything is broken. How the code is organised: [`CLAUDE.md`](CLAUDE.md). Roadmap: [`TASK.md`](TASK.md).
+`build.ps1` builds both versions from [`packaging/SystemMonitor.spec`](packaging/SystemMonitor.spec),
+leaving out the Qt parts the app doesn't use. It then starts each exe in a self-test mode that
+renders every tab, and fails the build if anything is broken. How the code is organised: [`CLAUDE.md`](CLAUDE.md). Roadmap: [`TASK.md`](TASK.md).
 
 ## License
 

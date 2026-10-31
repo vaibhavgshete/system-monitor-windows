@@ -19,7 +19,7 @@ python -m venv .venv
 .venv\Scripts\python run.py            # run with console (debugging)
 .venv\Scripts\pythonw run.py           # run without console
 .venv\Scripts\python -m pytest -q      # tests (Qt runs offscreen in tests)
-.\build.ps1                            # build + trim + self-test dist\SystemMonitor\SystemMonitor.exe
+.\build.ps1                            # build + self-test both flavours -> build\release\ (single .exe + zip)
 .venv\Scripts\python run.py --selftest DIR   # screenshot every tab into DIR, then exit
 ```
 
@@ -40,6 +40,7 @@ sysmon/
   winutil.py           Windows-only helpers via ctypes (admin, dark title bar, ...)
   assets/logo.png      app logo (window/taskbar icon; bundled into the exe by build.ps1)
 tools/make_ico.py      builds the multi-size exe icon from the logo
+packaging/SystemMonitor.spec   PyInstaller spec: folder + single-file builds, Qt trimming, version info
 tests/
 ```
 
