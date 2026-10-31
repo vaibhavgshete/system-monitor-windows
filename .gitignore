@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+build/
+dist/
+*.spec
+.pytest_cache/
+
+# GNOME System Monitor reference screenshots (GNOME project artwork) - kept locally, not published
+screenshots/
