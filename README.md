@@ -23,9 +23,17 @@ Both contain the same app. Nothing gets installed: no setup wizard, no admin rig
 - With the **zip** version, keep `SystemMonitor.exe` and the `_internal` folder next to it together;
   the app needs both. Don't run it from inside the zip without extracting it first.
 
-**"Windows protected your PC"?** The app isn't code-signed (signing certificates cost money),
-so Windows SmartScreen may warn the first time you run it. Click **More info → Run anyway**.
-You can check the source code in this repository, or build the exe yourself (see below).
+**"Windows protected your PC"?** Releases aren't code-signed yet (signing through SignPath is
+in progress), so Windows SmartScreen may warn the first time you run it. Click
+**More info → Run anyway**. You can check the source code in this repository, or build the exe
+yourself (see below).
+
+**"Smart App Control blocked an app"?** Smart App Control (Windows 11) blocks all unsigned apps,
+with no way to allow just one. Until releases are signed, you can either:
+- run System Monitor from source (see [Build from source](#build-from-source); Python and Qt are signed,
+  so Smart App Control allows them), or
+- turn Smart App Control off: Windows Security → App & browser control → Smart App Control settings → Off.
+  On many Windows versions it can't be turned back on without resetting Windows, so decide carefully.
 
 **Pin it:** while it's running, right-click its taskbar icon → **Pin to taskbar**.
 
@@ -92,9 +100,25 @@ python -m venv .venv
 .\build.ps1                            # build both downloads into build\release\
 ```
 
+Releases: push a tag like `v0.2.0` (matching `sysmon/__init__.py`), and GitHub Actions builds, tests,
+signs and publishes the release. See [docs/signing.md](docs/signing.md).
+
 `build.ps1` builds both versions from [`packaging/SystemMonitor.spec`](packaging/SystemMonitor.spec),
 leaving out the Qt parts the app doesn't use. It then starts each exe in a self-test mode that
 renders every tab, and fails the build if anything is broken. How the code is organised: [`CLAUDE.md`](CLAUDE.md). Roadmap: [`TASK.md`](TASK.md).
+
+## Code signing policy
+
+Releases are built from this repository's public source code by GitHub Actions
+([`.github/workflows/release.yml`](.github/workflows/release.yml)). Once signing is set up, they will be
+signed with free code signing provided by [SignPath.io](https://about.signpath.io/), with a certificate
+from the [SignPath Foundation](https://signpath.org/). Details: [docs/signing.md](docs/signing.md).
+
+- Committers and reviewers: [vaibhavgshete](https://github.com/vaibhavgshete)
+- Approvers (sign off each signed release): [vaibhavgshete](https://github.com/vaibhavgshete)
+
+**Privacy:** this program doesn't send any information to other computers or networks. It only reads
+system information locally, and it stores its own settings in your Windows registry.
 
 ## License
 

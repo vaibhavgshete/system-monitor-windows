@@ -2,6 +2,8 @@
 # downloadable files in build\release\:
 #   SystemMonitor-<version>.exe              single file: download and double-click
 #   SystemMonitor-<version>-win64.zip        folder build: extract, starts faster
+# -SkipPackage stops after the self-test (CI signs the exes before packaging them).
+param([switch]$SkipPackage)
 $ErrorActionPreference = "Stop"
 Set-Location $PSScriptRoot
 
@@ -10,7 +12,6 @@ if (-not (Test-Path $py)) {
     python -m venv .venv
     & $py -m pip install -r requirements.txt -r requirements-dev.txt
 }
-$version = (Select-String -Path sysmon\__init__.py -Pattern '__version__ = "([^"]+)"').Matches[0].Groups[1].Value
 
 # Multi-size exe icon from sysmon\assets\logo.png.
 New-Item -ItemType Directory -Force build | Out-Null
@@ -37,13 +38,6 @@ function Test-Build([string]$exe) {
 Test-Build "dist\SystemMonitor\SystemMonitor.exe"
 Test-Build "dist\SystemMonitor-portable.exe"
 
-# Release files.
-$release = "build\release"
-New-Item -ItemType Directory -Force $release | Out-Null
-Get-ChildItem $release | Remove-Item -Force
-Copy-Item "dist\SystemMonitor-portable.exe" "$release\SystemMonitor-v$version.exe"
-Compress-Archive -Path "dist\SystemMonitor" -DestinationPath "$release\SystemMonitor-v$version-win64.zip"
-
-Write-Host ""
-Write-Host "Release files (v$version):"
-Get-ChildItem $release | ForEach-Object { Write-Host ("  {0}  {1:N1} MB" -f $_.FullName, ($_.Length / 1MB)) }
+if (-not $SkipPackage) {
+    & "$PSScriptRoot\tools\package-release.ps1"
+}
