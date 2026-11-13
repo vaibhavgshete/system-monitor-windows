@@ -79,6 +79,9 @@ Legend: `[x]` done · `[ ]` to do · `[~]` partial
 - [x] Single-file `SystemMonitor-<version>.exe` alongside the zip (one spec builds both; Qt trimming
       happens inside the spec; Windows version info embedded; both self-tested)
 - [x] Public GitHub repo, MIT license, third-party notices, user-facing README, GitHub Release
+- [x] GitHub Actions release workflow (tests, build, self-test, package; publishes on `v*` tags); verified on windows-latest
+- [ ] Code signing via SignPath Foundation (Smart App Control blocks unsigned exes): user applies at
+      signpath.org, then adds `SIGNPATH_API_TOKEN` + variables (see docs/signing.md); workflow signs automatically
 - [x] App icon from the user's logo (`sysmon/assets/logo.png`), multi-size exe icon via `tools/make_ico.py`
 - [x] `--selftest DIR` flag; `build.ps1` runs it on the trimmed exe and fails the build if any tab breaks
 
